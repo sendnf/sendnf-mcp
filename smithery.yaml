@@ -1,3 +1,13 @@
 startCommand:
   type: http
   url: https://api.sendnf.com/mcp
+  configSchema:
+    type: object
+    required:
+      - apiKey
+    properties:
+      apiKey:
+        type: string
+        title: Chave de API do SendNF
+        description: Chave de API da sua conta SendNF (painel em sendnf.com, Configurações > API). Enviada no cabeçalho Authorization como Bearer.
+    additionalProperties: false
