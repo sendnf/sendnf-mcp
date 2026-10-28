@@ -1,0 +1,182 @@
+[
+  {
+    "name": "account_overview",
+    "description": "Modo da chave (teste ou produção), plano, uso do mês, se a chave é restrita a uma empresa e as empresas cadastradas com o que falta em cada uma. Comece por aqui.",
+    "readOnly": true
+  },
+  {
+    "name": "usage_by_company",
+    "description": "Notas de cada empresa no período (por tipo, status e ambiente), notas reais autorizadas, se o CNPJ ficou ativo e a estimativa de cobrança de cada uma. Sem from/to, o mês atual. Datas AAAA-MM-DD; to é exclusivo.",
+    "readOnly": true
+  },
+  {
+    "name": "go_live_status",
+    "description": "Por empresa: se o checklist da NFS-e está completo, se já passou uma nota de teste, se está ativada para emitir notas reais (live_enabled_at) e o estado",
+    "readOnly": true
+  },
+  {
+    "name": "lookup_cnpj",
+    "description": "Busca dados públicos da empresa na Receita (razão social, endereço, CNAE, Simples/MEI), descobre se a prefeitura usa o Sistema Nacional ou sistema próprio e sugere códigos de serviço pelo CNAE.",
+    "readOnly": true
+  },
+  {
+    "name": "search_service_codes",
+    "description": "Busca na lista nacional de serviços (LC 116) o código de tributação nacional (cTribNac, 6 dígitos) e o NBS. Aceita palavras do dia a dia (ex.: 'dentista', 'aula de inglês', 'desenvolvimento de software') ou o próprio código.",
+    "readOnly": true
+  },
+  {
+    "name": "get_service_code",
+    "description": "Descrição oficial de um código de tributação nacional e os NBS possíveis.",
+    "readOnly": true
+  },
+  {
+    "name": "how_to_get",
+    "description": "Passo a passo para conseguir dados fiscais difíceis de achar (CSC por UF, inscrição municipal, senha da prefeitura), com fontes oficiais.",
+    "readOnly": true
+  },
+  {
+    "name": "list_companies",
+    "description": "Empresas emitentes da conta (id, CNPJ, nome, regime, cidade, external_id e metadata). Filtro opcional pelo external_id (o id da empresa no sistema do integrador). Uma chave restrita a uma empresa só vê essa empresa.",
+    "readOnly": true
+  },
+  {
+    "name": "find_company_by_external_id",
+    "description": "Dados e checklist da empresa pelo id dela no sistema do integrador (external_id).",
+    "readOnly": true
+  },
+  {
+    "name": "get_company",
+    "description": "Dados da empresa, dados públicos da Receita e o checklist do que falta para emitir NFS-e e NFC-e, com guia para cada pendência.",
+    "readOnly": true
+  },
+  {
+    "name": "create_company",
+    "description": "Cadastra a empresa emitente. Basta o CNPJ: o resto vem da Receita. Informe também o que o usuário souber (inscrição municipal, código de serviço padrão, alíquota de ISS, emits_nfce se ela vende produto no balcão) e, para integradores, external_id e metadata. Devolve o checklist do que falta. Chaves restritas a uma empresa não cadastram empresas.",
+    "readOnly": false
+  },
+  {
+    "name": "import_invoice",
+    "description": "Lê o XML de uma nota que a empresa já emitiu (NFS-e Nacional ou municipal, NF-e ou NFC-e) e cadastra ou completa a empresa: inscrições, regime, código de serviço, NBS, alíquota do ISS, código municipal e a numeração (série e próximo número). Peça o XML ao usuário quando faltarem dados.",
+    "readOnly": false
+  },
+  {
+    "name": "update_company",
+    "description": "Atualiza dados da empresa (ex.: inscrição municipal, código de serviço padrão, CSC da NFC-e, senha da prefeitura, emits_nfce, external_id, metadata; null apaga external_id e metadata). Notas paradas (blocked) por falta desses dados voltam para a fila.",
+    "readOnly": false
+  },
+  {
+    "name": "upload_certificate",
+    "description": "Envia o certificado digital A1 (.pfx em base64 + senha). O SendNF confere CNPJ e validade e guarda cifrado. Só use quando o próprio usuário fornecer o arquivo e a senha.",
+    "readOnly": false
+  },
+  {
+    "name": "check_readiness",
+    "description": "O que falta para a empresa emitir, com guias. Mais leve que get_company.",
+    "readOnly": true
+  },
+  {
+    "name": "create_onboarding_link",
+    "description": "Gera um link curto da página de cadastro da empresa (com o whitelabel da conta, se ligado), para o próprio dono completar o que falta: certificado A1 e senha,",
+    "readOnly": false
+  },
+  {
+    "name": "get_branding",
+    "description": "Whitelabel da conta: se está ligado, nome, logo, cor, e-mail de suporte, responder-para, origens que podem incorporar o cadastro e o domínio de envio dos e-mails (com o status do DNS). Para mudar, use o painel (Whitelabel) ou PATCH /v1/branding.",
+    "readOnly": true
+  },
+  {
+    "name": "create_share_link",
+    "description": "Cria um link seguro, só de leitura, para quem recebe (contabilidade, sócio ou outro sistema) ver e baixar as notas autorizadas e canceladas (PDF, XML e ZIP do mês), sem login.",
+    "readOnly": false
+  },
+  {
+    "name": "list_share_links",
+    "description": "Lista os links de compartilhamento de notas: empresa, período, validade, se está ativo, expirado ou revogado, último acesso e quantos acessos.",
+    "readOnly": true
+  },
+  {
+    "name": "revoke_share_link",
+    "description": "Revoga um link de compartilhamento: ele para de abrir na hora. Confirme com o usuário antes.",
+    "readOnly": false
+  },
+  {
+    "name": "preview_nfse",
+    "description": "Simula a NFS-e sem transmitir: valida contra o layout oficial (ou o provedor da prefeitura), calcula totais e IBS/CBS e lista problemas com guias. Use sempre antes de issue_nfse.",
+    "readOnly": true
+  },
+  {
+    "name": "issue_nfse",
+    "description": "Emite a NFS-e e espera até ~25 s pelo resultado (authorized, rejected, blocked ou pending). Passe reference para não duplicar.",
+    "readOnly": false
+  },
+  {
+    "name": "preview_nfce",
+    "description": "Simula a NFC-e (venda de produto ao consumidor) sem transmitir e lista problemas com guias.",
+    "readOnly": true
+  },
+  {
+    "name": "issue_nfce",
+    "description": "Emite a NFC-e e espera até ~25 s pelo resultado. Passe reference para não duplicar.",
+    "readOnly": false
+  },
+  {
+    "name": "list_documents",
+    "description": "Notas do modo atual, mais recentes primeiro. Filtros opcionais por empresa (company_id ou company_external_id), status, tipo e referência.",
+    "readOnly": true
+  },
+  {
+    "name": "get_document",
+    "description": "Status e detalhes de uma nota: motivo de rejeição explicado, blocked_reason, tentativas de envio (attempts, max_attempts, next_attempt_at, last_error), se ainda pode ser cancelada ou substituída (cancellation) e links de PDF/XML. Aceita também o id de um rascunho de aprovação (mostra pending_approval, approved, rejected com o motivo, ou expired).",
+    "readOnly": true
+  },
+  {
+    "name": "create_export",
+    "description": "Pede a exportação em massa: um ZIP com o XML e o PDF de todas as notas do período (pastas por empresa e mês) e a planilha notas.csv/notas.xlsx (número, data, tomador, CPF/CNPJ, valor, ISS, retenções, situação, chave).",
+    "readOnly": false
+  },
+  {
+    "name": "get_export",
+    "description": "Estado de uma exportação (queued, running, ready, failed, expired), progresso (done/total) e, quando pronta, download_url (link assinado de 1 hora; o arquivo fica guardado 7 dias). Sem export_id, lista as últimas 30.",
+    "readOnly": true
+  },
+  {
+    "name": "get_document_events",
+    "description": "Linha do tempo da nota (criada, enviada, autorizada, rejeitada, bloqueada, cancelada…), para explicar ao usuário o que aconteceu com ela.",
+    "readOnly": true
+  },
+  {
+    "name": "cancel_document",
+    "description": "Cancela a nota inteira na Receita/prefeitura/SEFAZ. Irreversível: confirme com o usuário antes. NFC-e só em até 30 minutos depois da autorização; NFS-e no prazo da prefeitura (get_document mostra cancellation.allowed). Com a aprovação humana ligada, vira um rascunho pending_approval e só cancela quando uma pessoa aprovar.",
+    "readOnly": false
+  },
+  {
+    "name": "get_substitution_draft",
+    "description": "Diz se a NFS-e pode ser corrigida por substituição (\"cancelar parcialmente\") e devolve o corpo da original para editar e mandar ao substitute_document. NFC-e não tem cancelamento parcial.",
+    "readOnly": true
+  },
+  {
+    "name": "substitute_document",
+    "description": "\"Cancelar parcialmente\" ou corrigir valor/dados de uma NFS-e: emite uma nota substituta com os itens e valores informados, apontando para a original,",
+    "readOnly": false
+  },
+  {
+    "name": "create_note_draft",
+    "description": "Monta uma NFS-e (kind nfse) ou NFC-e (kind nfce) e deixa aguardando aprovação humana, mesmo que a trava esteja desligada: valida como na emissão (cadastro, layout oficial, totais) e devolve o rascunho com id, status pending_approval, approval_url e, na NFS-e, preview_pdf_url (prévia sem valor fiscal).",
+    "readOnly": false
+  },
+  {
+    "name": "list_pending_approvals",
+    "description": "Rascunhos de emissão, cancelamento e substituição do modo atual, mais recentes primeiro. Por padrão só os que aguardam aprovação (pending_approval); status aceita approved, rejected, expired, failed (vírgula para vários).",
+    "readOnly": true
+  },
+  {
+    "name": "get_approval_status",
+    "description": "Estado do rascunho: pending_approval (esperando uma pessoa), approved (traz o documento emitido/cancelado), rejected (traz rejection_reason: corrija e monte de novo), expired (ninguém decidiu em 7 dias) ou failed (aprovado, mas a emissão deu erro; veja error). Mostra quem decidiu e quando.",
+    "readOnly": true
+  },
+  {
+    "name": "retry_document",
+    "description": "Transmite agora uma nota pending, blocked (depois de corrigir o que faltava) ou failed (\"Não enviada\", quando o SendNF desistiu de tentar) e espera até ~25 s pelo resultado. NFS-e rejeitada vai de novo com número novo, montada com o cadastro atual da empresa (corrija o cadastro antes com update_company). Nota já autorizada, NFC-e rejeitada ou em envio volta como está.",
+    "readOnly": false
+  }
+]

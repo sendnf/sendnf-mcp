@@ -1,0 +1,25 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.sendnf/sendnf",
+  "description": "Emita NFS-e e NFC-e conversando: CNPJ, código de serviço, pré-emissão, emissão e cancelamento.",
+  "version": "1.0.0",
+  "websiteUrl": "https://sendnf.com/mcp/",
+  "repository": {
+    "url": "https://github.com/sendnf/sendnf-mcp",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://api.sendnf.com/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer nt_test_... (homologação) ou nt_live_...",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}
