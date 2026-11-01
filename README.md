@@ -5,6 +5,7 @@ Servidor MCP do [SendNF](https://sendnf.com/mcp/): emita NFS-e e NFC-e conversan
 - URL: `https://api.sendnf.com/mcp` (Streamable HTTP, sem sessão)
 - Autenticação: `Authorization: Bearer <chave>`. Chave `nt_test_...` é homologação (sem valor fiscal); `nt_live_...` é produção. Sem chave, o servidor responde 401.
 - Documentação: https://sendnf.com/mcp/
+- API para desenvolvedores: https://sendnf.com/desenvolvedores/ ; preços: https://sendnf.com/precos/ ; emissão de NFS-e: https://sendnf.com/nfse/
 
 Este repositório tem só o manifesto, exemplos e a lista de ferramentas. O código do produto é privado.
 
