@@ -35,6 +35,11 @@
     "readOnly": true
   },
   {
+    "name": "validate_dps",
+    "description": "Confere o XML de uma DPS (NFS-e Nacional) contra o leiaute oficial (XSD da NT 009) e devolve cada erro em português com o campo, o caminho, a causa e a correção. Não grava o XML, não chama a prefeitura nem a Receita e não garante aceitação: valida só o leiaute. Máximo 200 KB.",
+    "readOnly": true
+  },
+  {
     "name": "list_companies",
     "description": "Empresas emitentes da conta (id, CNPJ, nome, regime, cidade, external_id e metadata). Filtro opcional pelo external_id (o id da empresa no sistema do integrador). Uma chave restrita a uma empresa só vê essa empresa.",
     "readOnly": true
@@ -120,6 +125,16 @@
     "readOnly": false
   },
   {
+    "name": "preview_nfe",
+    "description": "Simula a NF-e modelo 55 (venda de mercadoria para empresa ou pessoa, dentro ou fora do estado; Simples Nacional e MEI) sem transmitir: valida destinatário, CFOP, transporte e pagamento no XSD oficial e lista problemas com guias.",
+    "readOnly": true
+  },
+  {
+    "name": "issue_nfe",
+    "description": "Emite a NF-e modelo 55 e espera até ~25 s pela SEFAZ. Passe reference para não duplicar ao repetir. O CFOP vira 6xxx sozinho na venda para outro estado; com e-mail no destinatário, o DANFE e o XML seguem para ele quando autorizada. Simples e MEI não destacam DIFAL (ADI 5464); regime normal (Presumido e Real) ainda não está disponível. Em produção, a empresa precisa estar ativada (veja go_live_status).",
+    "readOnly": false
+  },
+  {
     "name": "list_documents",
     "description": "Notas do modo atual, mais recentes primeiro. Filtros opcionais por empresa (company_id ou company_external_id), status, tipo e referência.",
     "readOnly": true
@@ -157,6 +172,11 @@
   {
     "name": "substitute_document",
     "description": "\"Cancelar parcialmente\" ou corrigir valor/dados de uma NFS-e: emite uma nota substituta com os itens e valores informados, apontando para a original,",
+    "readOnly": false
+  },
+  {
+    "name": "correct_nfe",
+    "description": "Registra uma carta de correção (evento 110110) numa NF-e autorizada, para erro de dado que não muda valor, destinatário nem data de emissão. Até 20 cartas por nota; a SEFAZ guarda só a última. Para cancelar a NF-e (até 24 h), use cancel_document.",
     "readOnly": false
   },
   {

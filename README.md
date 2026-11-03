@@ -23,7 +23,7 @@ Este repositório tem só o manifesto, exemplos e a lista de ferramentas. O cód
 }
 ```
 
-## Ferramentas (36)
+## Ferramentas (40)
 
 | Ferramenta | Tipo | O que faz |
 |---|---|---|
@@ -34,6 +34,7 @@ Este repositório tem só o manifesto, exemplos e a lista de ferramentas. O cód
 | `search_service_codes` | leitura | Busca na lista nacional de serviços (LC 116) o código de tributação nacional (cTribNac, 6 dígitos) e o NBS. |
 | `get_service_code` | leitura | Descrição oficial de um código de tributação nacional e os NBS possíveis. |
 | `how_to_get` | leitura | Passo a passo para conseguir dados fiscais difíceis de achar (CSC por UF, inscrição municipal, senha da prefeitura), com fontes oficiais. |
+| `validate_dps` | leitura | Confere o XML de uma DPS (NFS-e Nacional) contra o leiaute oficial (XSD da NT 009) e devolve cada erro em português com o campo, o caminho, a causa e a correção. Não grava o XML, não chama a prefeitura nem a Receita e não garante aceitação: valida só o leiaute. Máximo 200 KB. |
 | `list_companies` | leitura | Empresas emitentes da conta (id, CNPJ, nome, regime, cidade, external_id e metadata). |
 | `find_company_by_external_id` | leitura | Dados e checklist da empresa pelo id dela no sistema do integrador (external_id). |
 | `get_company` | leitura | Dados da empresa, dados públicos da Receita e o checklist do que falta para emitir NFS-e e NFC-e, com guia para cada pendência. |
@@ -51,6 +52,8 @@ Este repositório tem só o manifesto, exemplos e a lista de ferramentas. O cód
 | `issue_nfse` | escrita | Emite a NFS-e e espera até ~25 s pelo resultado (authorized, rejected, blocked ou pending). |
 | `preview_nfce` | leitura | Simula a NFC-e (venda de produto ao consumidor) sem transmitir e lista problemas com guias. |
 | `issue_nfce` | escrita | Emite a NFC-e e espera até ~25 s pelo resultado. |
+| `preview_nfe` | leitura | Simula a NF-e modelo 55 (venda de mercadoria para empresa ou pessoa, dentro ou fora do estado; Simples Nacional e MEI) sem transmitir: valida destinatário, CFOP, transporte e pagamento no XSD oficial e lista problemas com guias. |
+| `issue_nfe` | escrita | Emite a NF-e modelo 55 e espera até ~25 s pela SEFAZ. Passe reference para não duplicar ao repetir. O CFOP vira 6xxx sozinho na venda para outro estado; com e-mail no destinatário, o DANFE e o XML seguem para ele quando autorizada. Simples e MEI não destacam DIFAL (ADI 5464); regime normal (Presumido e Real) ainda não está disponível. Em produção, a empresa precisa estar ativada (veja go_live_status). |
 | `list_documents` | leitura | Notas do modo atual, mais recentes primeiro. |
 | `get_document` | leitura | Status e detalhes de uma nota: motivo de rejeição explicado, blocked_reason, tentativas de envio (attempts, max_attempts, next_attempt_at, last_error), se ainda pode ser cancelada ou substituída (cancellation) e links de PDF/XML. |
 | `create_export` | escrita | Pede a exportação em massa: um ZIP com o XML e o PDF de todas as notas do período (pastas por empresa e mês) e a planilha notas.csv/notas.xlsx (número, data, tomador, CPF/CNPJ, valor, ISS, retenções, situação, chave). |
@@ -59,6 +62,7 @@ Este repositório tem só o manifesto, exemplos e a lista de ferramentas. O cód
 | `cancel_document` | escrita | Cancela a nota inteira na Receita/prefeitura/SEFAZ. |
 | `get_substitution_draft` | leitura | Diz se a NFS-e pode ser corrigida por substituição ("cancelar parcialmente") e devolve o corpo da original para editar e mandar ao substitute_document. |
 | `substitute_document` | escrita | "Cancelar parcialmente" ou corrigir valor/dados de uma NFS-e: emite uma nota substituta com os itens e valores informados, apontando para a original, |
+| `correct_nfe` | escrita | Registra uma carta de correção (evento 110110) numa NF-e autorizada, para erro de dado que não muda valor, destinatário nem data de emissão. Até 20 cartas por nota; a SEFAZ guarda só a última. Para cancelar a NF-e (até 24 h), use cancel_document. |
 | `create_note_draft` | escrita | Monta uma NFS-e (kind nfse) ou NFC-e (kind nfce) e deixa aguardando aprovação humana, mesmo que a trava esteja desligada: valida como na emissão (cadastro, layout oficial, totais) e devolve o rascunho com id, status pending_approval, approval_url e, na NFS-e, preview_pdf_url (prévia sem valor fiscal). |
 | `list_pending_approvals` | leitura | Rascunhos de emissão, cancelamento e substituição do modo atual, mais recentes primeiro. |
 | `get_approval_status` | leitura | Estado do rascunho: pending_approval (esperando uma pessoa), approved (traz o documento emitido/cancelado), rejected (traz rejection_reason: corrija e monte de novo), expired (ninguém decidiu em 7 dias) ou failed (aprovado, mas a emissão deu erro; veja error). |
