@@ -23,7 +23,7 @@ Este repositório tem só o manifesto, exemplos e a lista de ferramentas. O cód
 }
 ```
 
-## Ferramentas (40)
+## Ferramentas (44)
 
 | Ferramenta | Tipo | O que faz |
 |---|---|---|
@@ -42,6 +42,10 @@ Este repositório tem só o manifesto, exemplos e a lista de ferramentas. O cód
 | `import_invoice` | escrita | Lê o XML de uma nota que a empresa já emitiu (NFS-e Nacional ou municipal, NF-e ou NFC-e) e cadastra ou completa a empresa: inscrições, regime, código de serviço, NBS, alíquota do ISS, código municipal e a numeração (série e próximo número). |
 | `update_company` | escrita | Atualiza dados da empresa (ex.: inscrição municipal, código de serviço padrão, CSC da NFC-e, senha da prefeitura, emits_nfce, external_id, metadata; null apaga external_id e metadata). |
 | `upload_certificate` | escrita | Envia o certificado digital A1 (.pfx em base64 + senha). |
+| `upload_proxy_certificate` | escrita | Envia o e-CNPJ A1 do procurador (ex.: escritório contábil) uma vez; ele serve várias empresas da conta que derem procuração eletrônica. |
+| `list_proxy_certificates` | leitura | Lista os certificados A1 de procurador da conta, a validade e as empresas que emitem com cada um. |
+| `link_proxy_certificate` | escrita | Liga empresas ao certificado do procurador (Simples Nacional, com procuração eletrônica do serviço NFS-e já dada). |
+| `unlink_proxy_certificate` | escrita | Desliga empresas do certificado do procurador; elas voltam a usar o A1 enviado para cada uma. |
 | `check_readiness` | leitura | O que falta para a empresa emitir, com guias. |
 | `create_onboarding_link` | escrita | Gera um link curto da página de cadastro da empresa (com o whitelabel da conta, se ligado), para o próprio dono completar o que falta: certificado A1 e senha, |
 | `get_branding` | leitura | Whitelabel da conta: se está ligado, nome, logo, cor, e-mail de suporte, responder-para, origens que podem incorporar o cadastro e o domínio de envio dos e-mails (com o status do DNS). |

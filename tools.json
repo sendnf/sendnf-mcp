@@ -75,6 +75,26 @@
     "readOnly": false
   },
   {
+    "name": "upload_proxy_certificate",
+    "description": "Envia o e-CNPJ A1 do procurador (ex.: escritório contábil) uma vez; ele serve várias empresas da conta que derem procuração eletrônica (serviço NFS-e, no Portal de Serviços da Receita). Com proxy_certificate_id renova o arquivo e mantém as empresas ligadas. Só use quando o próprio usuário fornecer o arquivo e a senha. Depois ligue as empresas com link_proxy_certificate.",
+    "readOnly": false
+  },
+  {
+    "name": "list_proxy_certificates",
+    "description": "Lista os certificados A1 de procurador da conta, a validade e as empresas que emitem com cada um.",
+    "readOnly": true
+  },
+  {
+    "name": "link_proxy_certificate",
+    "description": "Liga empresas ao certificado do procurador. Empresa com A1 próprio continua emitindo com o dela. Empresa sem A1 próprio emite pelo Emissor Nacional (portal) com o A1 do procurador, hoje só no Simples Nacional (ME/EPP), com simples_rate preenchido (update_company), e só se autoriza_portal=true (o escritório autoriza o uso do certificado nos portais oficiais; em autoriza_referencia registre onde e quando ele autorizou por escrito, ex. WhatsApp com data e hora). A alíquota efetiva do Simples (simples_rate, centésimos de %: 6% = 600) se informa com update_company; sem validade da procuração (valid_until) a ligação vale sem prazo. confirm_proxy=true declara que a procuração eletrônica do serviço NFS-e já foi dada ao procurador pela empresa. Notas com retenção, desconto, substituição ou prefeitura de sistema próprio ficam bloqueadas com o motivo. Para voltar ao A1 da própria empresa use unlink_proxy_certificate.",
+    "readOnly": false
+  },
+  {
+    "name": "unlink_proxy_certificate",
+    "description": "Desliga empresas do certificado do procurador; elas voltam a usar o A1 enviado para cada uma.",
+    "readOnly": false
+  },
+  {
     "name": "check_readiness",
     "description": "O que falta para a empresa emitir, com guias. Mais leve que get_company.",
     "readOnly": true
